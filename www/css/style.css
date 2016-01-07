@@ -1,0 +1,34 @@
+/* CSS Document */
+/*-------------------------------------
+Document : style.css (Style Sheet)
+Dated : January 2016
+Project : MyEnergy App
+-------------------------------------*/
+
+.homescreen {
+	border:1px solid red;
+	text-align:center;
+	padding:5% 0%;
+	background-color: #f8f8f8;
+	border:1px solid #999999;
+}
+
+#chartdiv {
+	width:50%; margin:auto;
+}
+
+
+/* for smartphones */
+@media only screen and ( max-width: 767px) 
+{
+
+}
+
+/* for mini mobiles */
+@media only screen and (max-width: 480px) {
+
+	#chartdiv {
+		width:auto;
+	}
+
+}
