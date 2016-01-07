@@ -1,34 +1,169 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+<html ng-app="energyApp">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<title></title>
+	
+	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/jquery.jqplot.css" />
+	
+	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+	<link href="css/ionic.app.css" rel="stylesheet">
+	-->
+	
+	<!-- ionic/angularjs js -->
+	<script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script src="lib/ionic/js/angular/angular.min.js"></script>
+	<script src="lib/ionic/js/angular-ui/angular-ui-router.min.js"></script>
+	
+	<!-- cordova script (this will be a 404 during development) -->
+	<script src="cordova.js"></script>
+		
+	<!-- your app's js -->
+	<script src="js/app.js"></script>
+	<script src="js/controllers.js"></script>
+		
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.jqplot.min.js"></script>
+	<script src="js/jqplot.barRenderer.min.js"></script>
+	<script src="js/jqplot.categoryAxisRenderer.min.js"></script>
+	<script src="js/jqplot.canvasAxisLabelRenderer.js"></script>
+	<script src="js/charts.js"></script>
+	
+</head>
+<body ng-controller="EnergyCtrl">
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+	<ion-nav-view></ion-nav-view>
+	
+	<script id="templates/menu.html" type="text/ng-template">
+		<ion-side-menus enable-menu-with-back-views="false">
+		
+			<ion-side-menu-content>
+				<ion-nav-bar class="bar-dark">	
+					<ion-nav-buttons side="left">
+						<a class="button button-icon ion-home" href="#/app/home"></a>
+					</ion-nav-buttons>
+					<ion-nav-buttons side="right">
+						<button class="button button-icon ion-navicon" menu-toggle="right"></button>
+					</ion-nav-buttons>
+				</ion-nav-bar>
+				<ion-nav-view name="menuContent"></ion-nav-view>
+			</ion-side-menu-content>
+			
+			<ion-side-menu side="right">
+				<ion-header-bar class="bar-dark">
+					<h1 class="title">My Devices</h1>
+					<button class="button icon icon-right ion-close" menu-close></button>
+				</ion-header-bar>
+				<ion-content>
+					<ion-list>
+						<ion-item href="#/app/nest" menu-close>NEST</ion-item>
+						<ion-item href="#/app/leaf" menu-close>LEAF</ion-item>
+						<ion-item href="#">WASHING M/C</ion-item>
+						<ion-item class="item-dark" ng-click="openAccount()">Manage Account</ion-item>
+						<ion-item href="#">PG&amp;E</ion-item>
+					</ion-list>
+				</ion-content>
+			</ion-side-menu>
+		
+		</ion-side-menus>
+	</script>
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+	<script id="templates/home.html" type="text/ng-template">
+		<ion-view view-title="My Energy App">
+		<ion-content class="padding">
+			<div class="homescreen">
+				<h1>Welcome to My Energry App</h1>
+				<button class="button button-balanced">Start App!</button>
+				<div id="chartdiv"></div>
+			</div>
+		</ion-content>
+		</ion-view>
+	</script>
+	
+	<script id="templates/nest.html" type="text/ng-template">
+		<ion-view view-title="NEST">
+			<ion-content class="padding">
+				<button class="button button-balanced">Timer</button>
+				<button class="button button-balanced">Thermostat</button>
+				<button class="button button-balanced" ng-click="openAccount()">Account</button>
+				
+				<div class="list card">
+					<div class="item">
+						<h2>NEST THERMOSTAT</h2>
+						<p>Discover the 2016 Nissan LEAF 100% Electric Car. </p>
+					</div>
+					<div class="item">
+						<img src="img/nest-thermostat.jpg">
+					</div>
+				</div>
+			</ion-content>
+		</ion-view>
+	</script>
+	
+	<script id="templates/leaf.html" type="text/ng-template">
+		<ion-view view-title="LEAF">
+			<ion-content class="padding">
+				<button class="button button-balanced">Timer</button>
+				<button class="button button-balanced">Thermostat</button>
+				<button class="button button-balanced" ng-click="openAccount()">Account</button>
+				
+				<div class="list card">
+					<div class="item">
+						<h2>NISSAN LEAF</h2>
+						<p>Discover the 2016 Nissan LEAF 100% Electric Car. </p>
+					</div>
+					<div class="item">
+						<img src="img/nissan-leaf.jpg">
+					</div>
+				</div>
+			</ion-content>
+		</ion-view>
+	</script>
+	
+	<script id="my-account.html" type="text/ng-template">
+		<div class="modal">
+			<!-- Modal header bar -->
+			<ion-header-bar class="bar-secondary bar-dark">
+				<h1 class="title">Manage Account</h1>
+				<button class="button button-clear" ng-click="closeAccount()">Cancel</button>
+			</ion-header-bar>
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+			<!-- Modal content area -->
+			<ion-content>
+				<form ng-submit="doLogin()">
+					<div class="list">
+						<label class="item item-input item-select">
+							<span class="input-label">Account Type</span>
+							<select>
+								<option>Energy Provider</option>
+								<option>Electric Car</option>
+								<option>NEST Thermostat</option>
+							</select>
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Username</span>
+							<input type="text" ng-model="loginData.username">
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Password</span>
+							<input type="password" ng-model="loginData.password">
+						</label>
+						<label class="item item-input">
+							<span class="input-label">Account #</span>
+							<input type="password" ng-model="loginData.accountnumber">
+						</label>
+						<label class="item">
+							<button class="button button-positive" type="submit">Reset</button>
+							<button class="button button-positive" type="submit">Save</button>
+						</label>
+					</div>
+				</form>
+			</ion-content>
+		</div>
+	</script>
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
-
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-  </head>
-  <body ng-app="starter">
-
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
-    </ion-pane>
-  </body>
+</body>
 </html>
