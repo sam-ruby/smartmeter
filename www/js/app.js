@@ -1,5 +1,4 @@
 angular.module('energyApp', ['ionic', 'energyApp.controllers', 'ui.router'])
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
@@ -35,4 +34,3 @@ angular.module('energyApp', ['ionic', 'energyApp.controllers', 'ui.router'])
   
   $urlRouterProvider.otherwise("/app/home");
 })
-
