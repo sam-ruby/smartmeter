@@ -6,7 +6,6 @@ Project : MyEnergy App
 -------------------------------------*/
 
 .homescreen {
-	border:1px solid red;
 	text-align:center;
 	padding:5% 0%;
 	background-color: #f8f8f8;
@@ -18,9 +17,26 @@ Project : MyEnergy App
 }
 
 
+@media (min-width: 767px) {
+	.menu-content {
+		-webkit-transform: translate3d(0px, 0px, 270px) !important;
+		width: calc(100% - 270px) !important;
+	} 
+	
+	.bar-header button.ion-navicon,
+	.ion-android-close {
+		display: none;
+	}
+}
+
+
 /* for smartphones */
 @media only screen and ( max-width: 767px) 
 {
+	#chartdiv {
+		width:auto;
+		border:1xp solid green;
+	}
 
 }
 
@@ -29,6 +45,7 @@ Project : MyEnergy App
 
 	#chartdiv {
 		width:auto;
+		border:1xp solid blue;
 	}
 
 }

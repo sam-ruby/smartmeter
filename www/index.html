@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html ng-app="energyApp">
 <head>
 	<meta charset="utf-8">
@@ -7,7 +6,7 @@
 	
 	<link href="lib/ionic/css/ionic.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
-	<link href="css/jquery.jqplot.css" />
+	<link href="css/jquery.jqplot.css" rel="stylesheet" />
 	
 	<!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
 	<link href="css/ionic.app.css" rel="stylesheet">
@@ -15,6 +14,7 @@
 	
 	<!-- ionic/angularjs js -->
 	<script src="lib/ionic/js/ionic.bundle.js"></script>
+	
 	<script src="lib/ionic/js/angular/angular.min.js"></script>
 	<script src="lib/ionic/js/angular-ui/angular-ui-router.min.js"></script>
 	
@@ -28,8 +28,9 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.jqplot.min.js"></script>
 	<script src="js/jqplot.barRenderer.min.js"></script>
+	<script src="js/jqplot.canvasTextRenderer.min.js"></script>
+	<script src="js/jqplot.canvasAxisLabelRenderer.min.js"></script>
 	<script src="js/jqplot.categoryAxisRenderer.min.js"></script>
-	<script src="js/jqplot.canvasAxisLabelRenderer.js"></script>
 	<script src="js/charts.js"></script>
 	
 </head>
@@ -38,31 +39,29 @@
 	<ion-nav-view></ion-nav-view>
 	
 	<script id="templates/menu.html" type="text/ng-template">
-		<ion-side-menus enable-menu-with-back-views="false">
+		<ion-side-menus>
 		
 			<ion-side-menu-content>
-				<ion-nav-bar class="bar-dark">	
-					<ion-nav-buttons side="left">
-						<a class="button button-icon ion-home" href="#/app/home"></a>
-					</ion-nav-buttons>
-					<ion-nav-buttons side="right">
+				<ion-nav-bar class="bar-dark">
+					 <ion-nav-buttons side="right">
 						<button class="button button-icon ion-navicon" menu-toggle="right"></button>
 					</ion-nav-buttons>
-				</ion-nav-bar>
+				</ion-nav-bar>				
 				<ion-nav-view name="menuContent"></ion-nav-view>
 			</ion-side-menu-content>
 			
 			<ion-side-menu side="right">
 				<ion-header-bar class="bar-dark">
 					<h1 class="title">My Devices</h1>
-					<button class="button icon icon-right ion-close" menu-close></button>
+					<button class="button icon icon-left ion-android-close" menu-close></button>				
 				</ion-header-bar>
 				<ion-content>
 					<ion-list>
+						<ion-item href="#/app/home" menu-close>HOME</ion-item>
 						<ion-item href="#/app/nest" menu-close>NEST</ion-item>
 						<ion-item href="#/app/leaf" menu-close>LEAF</ion-item>
 						<ion-item href="#">WASHING M/C</ion-item>
-						<ion-item class="item-dark" ng-click="openAccount()">Manage Account</ion-item>
+						<ion-item class="item-positive" ng-click="openAccount()">Manage Account</ion-item>
 						<ion-item href="#">PG&amp;E</ion-item>
 					</ion-list>
 				</ion-content>
@@ -72,11 +71,10 @@
 	</script>
 
 	<script id="templates/home.html" type="text/ng-template">
-		<ion-view view-title="My Energy App">
+		<ion-view view-title="SMART METER">
 		<ion-content class="padding">
 			<div class="homescreen">
-				<h1>Welcome to My Energry App</h1>
-				<button class="button button-balanced">Start App!</button>
+				<h1>Energry Usage</h1>
 				<div id="chartdiv"></div>
 			</div>
 		</ion-content>
@@ -93,7 +91,7 @@
 				<div class="list card">
 					<div class="item">
 						<h2>NEST THERMOSTAT</h2>
-						<p>Discover the 2016 Nissan LEAF 100% Electric Car. </p>
+						<p>Meet the 3rd gen Nest Learning Thermostat. </p>
 					</div>
 					<div class="item">
 						<img src="img/nest-thermostat.jpg">
